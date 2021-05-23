@@ -11,7 +11,7 @@ class HomeBasic : AppCompatActivity() {
         setContentView(R.layout.activity_home_basic)
         val fManager = supportFragmentManager
         val transaction = fManager.beginTransaction()
-        transaction.add(R.id.topAppBar, HomeFragment())
+        transaction.add(R.id.fragmentFrame, HomeFragment())
         transaction.commitAllowingStateLoss()
 
     }
