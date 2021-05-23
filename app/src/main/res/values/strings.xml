@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Covs</string>
+    <string name="app_name">Covistats</string>
+    <string name="appName">COVISTATS</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
