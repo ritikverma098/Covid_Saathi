@@ -11,9 +11,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/appPrimaryColor</item>
+        <item name="android:navigationBarColor">?attr/appPrimaryColor</item>
         <!-- Customize your theme here. -->
         <item name="appPrimaryColor">@color/backgroundBlack</item>
         <item name="appAccentColor">@color/corn</item>
         <item name="appText">@color/backgroundWhite</item>
+        <item name="cardColor">@color/offBlack</item>
     </style>
 </resources>

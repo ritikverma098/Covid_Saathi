@@ -48,4 +48,7 @@ dependencies {
     implementation "androidx.activity:activity:1.3.0-alpha08"
     implementation 'androidx.fragment:fragment:1.4.0-alpha01'
     apply plugin: 'kotlin-android-extensions'
+
+    implementation("app.futured.donut:library:2.1.0")
+    apply plugin: 'kotlin-android-extensions'
 }

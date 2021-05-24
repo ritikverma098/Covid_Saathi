@@ -3,4 +3,5 @@
     <attr name="appPrimaryColor" format="reference"/>
     <attr name="appAccentColor" format="reference"/>
     <attr name="appText" format="reference"/>
+    <attr name="cardColor" format="reference"/>
 </resources>
