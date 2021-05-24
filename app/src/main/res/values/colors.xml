@@ -13,5 +13,7 @@
     <color name="corn">#FFFCEC52</color>
     <color name="middleYellow">#FFFCE622</color>
     <color name="spanishGreen">#FF058C42</color>
+    <color name="red">#FFFF0000</color>
+    <color name="offBlack">#FF1c1c1c</color>
 
 </resources>
