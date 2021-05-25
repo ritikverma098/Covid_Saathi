@@ -1,22 +1,29 @@
 package com.example.covs
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.*
-import java.util.*
 import app.futured.donut.DonutSection
-
+import com.google.android.gms.location.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -24,25 +31,16 @@ class HomeFragment : Fragment() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
 
-    /*private fun showPermissionRequestExplanation(
-        permission: String,
-        message: String,
-        retry: (() -> Unit)? = null
-    ) {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("$permission Required")
-            setMessage(message)
-            setPositiveButton("Ok") { _, _ -> retry?.invoke() }
-        }.show()
-    }
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
+        val view:View = inflater.inflate(R.layout.fragment_home, container, false)
         view.donut_view.cap = 1f
         view.donut_view.submitData(getSections())
+        fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
+        getlastlocation()
+
         return view
     }
 
@@ -64,40 +62,7 @@ class HomeFragment : Fragment() {
                 amount = 1f
             )
         )
-        // Inflate the layout for this fragment
-      var view:View =  inflater.inflate(R.layout.fragment_home, container, false)
-        fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
 
-       /* requestPermissionLauncher =
-            this.registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    // Permission is granted. Continue the action or workflow in your
-                    // app.
-                } else {
-                    //showPermissionRequestExplanation("Location Permission Required","Need location permission to make app function properly"){requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_COARSE_LOCATION)}
-                    //requestLocationPermission()
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
-                }
-            }*/
-
-        // We need to use getLastLocation
-
-        /*var button:Button = view.findViewById(R.id.button2)
-        button.setOnClickListener(View.OnClickListener { view->
-            requestLocationPermission()
-        })*/
-        /*view.button2.setOnClickListener {
-            getlastlocation()
-        }*/
-
-
-        return view
     }
     private fun getlastlocation()
     {
@@ -112,13 +77,28 @@ class HomeFragment : Fragment() {
                         getNewLocation()
                     }else
                     {
+                        cityName.text = stateName(location.latitude,location.longitude)
                         Log.d("locationCheck", "Latitude"+location.latitude + " Longitude "
                                 + location.longitude + "\n CityName " + cityName(location.latitude,location.longitude)+" StateName" +stateName(location.latitude,location.longitude))
                     }
                 }
             }else
             {
-                Log.d("locationCheck","Location is not enabled")
+               val builder = AlertDialog.Builder(requireContext())
+               builder.setTitle("Location is not enabled")
+               builder.setMessage("Enable location to view cases in your state")
+                builder.setIcon(android.R.drawable.ic_dialog_alert)
+                builder.setPositiveButton("Yes"){ dialoginterface, which->
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+                }
+                builder.setNegativeButton("No"){ dialoginterface, which->
+                    Log.d("locationCheck","User clicked No")
+                }
+                val alertDialog = builder.create()
+                alertDialog.setCancelable(false)
+                alertDialog.show()
+
             }
         }
         else
@@ -135,24 +115,16 @@ class HomeFragment : Fragment() {
         }
         return false
     }
-    /*private fun requestLocationPermission()
-    {
-        when {
-            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
-                Log.d("locationCheck","Location is granted")
-            }
-            shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_COARSE_LOCATION)->
-            {
-                showPermissionRequestExplanation("Location Permission Required","Need location permission to make app function properly"){requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_COARSE_LOCATION)}
 
-            }
-            else ->{
-                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+    private fun RequestPermission(){
+        runBlocking {
+            launch {
+                delay(10000)
+                getlastlocation()
             }
         }
-    }*/
-    private fun RequestPermission(){
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION),LocationPermissionID)
+
     }
     private fun isLocationEnabled():Boolean{
         var locationManager:LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -176,10 +148,7 @@ class HomeFragment : Fragment() {
     private fun getNewLocation()
     {
         locationRequest = LocationRequest.create().apply {
-            interval = 100
-            fastestInterval  = 50
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            maxWaitTime = 100
         }
         fusedLocationProviderClient!!.requestLocationUpdates(
             locationRequest,locationCallback, Looper.getMainLooper()
@@ -189,6 +158,7 @@ class HomeFragment : Fragment() {
     {
         override fun onLocationResult(p0: LocationResult) {
             var lastLocation = p0.lastLocation
+            cityName.text = stateName(lastLocation.latitude,lastLocation.longitude)
             Log.d("locationCheck", "Latitude"+lastLocation.latitude + " Longitude " +
                     lastLocation.longitude + "\n CityName " + cityName(lastLocation.latitude,
                 lastLocation.longitude)+" StateName" +stateName(lastLocation.latitude,lastLocation.longitude))
