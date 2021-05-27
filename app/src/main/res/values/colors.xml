@@ -15,5 +15,10 @@
     <color name="spanishGreen">#FF058C42</color>
     <color name="red">#FFFF0000</color>
     <color name="offBlack">#FF1c1c1c</color>
-
+    <color name="dividerGray">#FFf0f0f0</color>
+    <color name="donutGray">#FFf2f2f2</color>
+    <color name="kindaPurple">#FF2573FA</color>
+    <color name="kindaPurpleButLighter">#FFC1D4FD</color>
+    <color name="orange">#FFef7215</color>
+    <color name="amber">#FFff7417</color>
 </resources>

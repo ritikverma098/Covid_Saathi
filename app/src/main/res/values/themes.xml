@@ -2,9 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.Covs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/kindaPurple</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSurface">@color/kindaPurpleButLighter</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -17,6 +18,8 @@
         <item name="appAccentColor">@color/mediumPurple</item>
         <item name="appText">@color/backgroundBlack</item>
         <item name="cardColor">@color/white</item>
+        <item name="dividerColor">@color/dividerGray</item>
+        <item name="donut_bgLineColor">@color/donutGray</item>
 
     </style>
 </resources>

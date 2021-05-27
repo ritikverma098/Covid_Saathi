@@ -16,6 +16,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import app.futured.donut.DonutSection
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -23,10 +26,13 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import androidx.navigation.*
+import androidx.navigation.fragment.findNavController
 import java.util.*
 
 
 class HomeFragment : Fragment() {
+
     var LocationPermissionID =1000
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
@@ -40,7 +46,27 @@ class HomeFragment : Fragment() {
         view.donut_view.submitData(getSections())
         fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
         getlastlocation()
-
+        view.materialCardView?.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToTotalCases()
+            val extras = FragmentNavigatorExtras(materialCardView to "totalCaseCard")
+            findNavController().navigate(action, extras)
+           // Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_totalCases, null)
+        }
+        view.materialCardView3?.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToActiveCases()
+            val extras = FragmentNavigatorExtras(materialCardView3 to "activeCaseCard")
+            findNavController().navigate(action, extras)
+        }
+        view.materialCardView2?.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToRecoveredCases()
+            val extras = FragmentNavigatorExtras(materialCardView2 to "recoveredCaseCard")
+            findNavController().navigate(action, extras)
+        }
+        view.materialCardView4?.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToDeathCases()
+            val extras = FragmentNavigatorExtras(materialCardView4 to "deathCaseCard")
+            findNavController().navigate(action, extras)
+        }
         return view
     }
 
@@ -117,12 +143,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun RequestPermission(){
-        runBlocking {
-            launch {
-                delay(10000)
-                getlastlocation()
-            }
-        }
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION),LocationPermissionID)
 
     }
