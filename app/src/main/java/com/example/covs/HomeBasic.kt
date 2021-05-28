@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeBasic : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_basic)
@@ -14,9 +13,8 @@ class HomeBasic : AppCompatActivity() {
         transaction.add(R.id.fragmentFrame, HomeFragment())
         transaction.commitAllowingStateLoss()
 
+
+
     }
-
-
-
 
 }
