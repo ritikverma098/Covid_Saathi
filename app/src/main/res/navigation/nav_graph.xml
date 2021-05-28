@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.covs.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="1"/>
+        <action
+            android:id="@+id/action_homeFragment_to_totalCases"
+            app:destination="@id/totalCases" />
+        <action
+            android:id="@+id/action_homeFragment_to_activeCases"
+            app:destination="@id/activeCases" />
+        <action
+            android:id="@+id/action_homeFragment_to_recoveredCases"
+            app:destination="@id/recoveredCases" />
+        <action
+            android:id="@+id/action_homeFragment_to_deathCases"
+            app:destination="@id/deathCases" />
+    </fragment>
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.covs.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/totalCases"
+        android:name="com.example.covs.TotalCases"
+        android:label="fragment_total_cases"
+        tools:layout="@layout/fragment_total_cases" >
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="2"/>
+    </fragment>
+    <fragment
+        android:id="@+id/activeCases"
+        android:name="com.example.covs.ActiveCases"
+        android:label="fragment_active_cases"
+        tools:layout="@layout/fragment_active_cases" >
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="2"/>
+    </fragment>
+    <fragment
+        android:id="@+id/recoveredCases"
+        android:name="com.example.covs.RecoveredCases"
+        android:label="fragment_recovered_cases"
+        tools:layout="@layout/fragment_recovered_cases" >
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="2"/>
+    </fragment>
+    <fragment
+        android:id="@+id/deathCases"
+        android:name="com.example.covs.DeathCases"
+        android:label="fragment_death_cases"
+        tools:layout="@layout/fragment_death_cases" />
+</navigation>

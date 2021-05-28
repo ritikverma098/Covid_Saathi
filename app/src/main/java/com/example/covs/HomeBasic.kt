@@ -5,16 +5,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeBasic : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_basic)
-        val fManager = supportFragmentManager
-        val transaction = fManager.beginTransaction()
-        transaction.add(R.id.fragmentFrame, HomeFragment())
-        transaction.commitAllowingStateLoss()
-
-
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentFrame) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNavBar!!.setupWithNavController(navController)
 
     }
+
+
+
 
 }

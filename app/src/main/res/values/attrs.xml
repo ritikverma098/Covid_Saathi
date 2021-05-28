@@ -4,4 +4,6 @@
     <attr name="appAccentColor" format="reference"/>
     <attr name="appText" format="reference"/>
     <attr name="cardColor" format="reference"/>
+    <attr name="dividerColor" format="reference"/>
+    <attr name="menuIcon" fomrat="reference"/>
 </resources>
