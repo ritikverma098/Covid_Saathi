@@ -2,10 +2,11 @@ package com.example.covs
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialContainerTransform
 
 
@@ -19,7 +20,7 @@ class ActiveCases : Fragment() {
             drawingViewId = R.id.fragmentFrame
             duration = 1000.toLong()
             scrimColor  = Color.TRANSPARENT
-            setAllContainerColors(Color.CYAN)
+            setAllContainerColors(MaterialColors.getColor(requireContext(), R.attr.appPrimaryColor, Color.WHITE))
         }
 
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.*
 
 
@@ -18,7 +19,7 @@ class TotalCases : Fragment() {
             drawingViewId = R.id.fragmentFrame
             duration = 1000.toLong()
             scrimColor  = Color.TRANSPARENT
-            setAllContainerColors(Color.CYAN)
+            setAllContainerColors(MaterialColors.getColor(requireContext(), R.attr.appPrimaryColor, Color.WHITE))
         }
 
     }

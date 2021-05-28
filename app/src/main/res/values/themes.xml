@@ -20,6 +20,6 @@
         <item name="cardColor">@color/white</item>
         <item name="dividerColor">@color/dividerGray</item>
         <item name="donut_bgLineColor">@color/donutGray</item>
-
+        <item name="spark_SparkViewStyle">@style/sparkViewStyle</item>
     </style>
 </resources>

@@ -57,6 +57,8 @@ dependencies {
     implementation("app.futured.donut:library:2.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation 'com.robinhood.spark:spark:1.2.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     apply plugin: 'kotlin-android-extensions'
 
     apply plugin: 'androidx.navigation.safeargs.kotlin'

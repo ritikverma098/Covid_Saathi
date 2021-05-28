@@ -5,5 +5,13 @@
         <item name="android:fontFamily">@font/sourcesans_bold</item>
         <item name="android:textSize">@dimen/_28ssp</item>
     </style>
-    
+
+    <style name="sparkViewStyle" parent="@style/spark_SparkView">
+        <item name = "spark_lineColor">@color/spanishGreen</item>
+        <item name="spark_lineWidth">5dp</item>
+        <item name="spark_cornerRadius">15dp</item>
+        <item name="spark_fill">false</item>
+        <item name="spark_scrubEnabled">true</item>
+        <item name="spark_animateChanges"> true</item>
+    </style>
 </resources>
