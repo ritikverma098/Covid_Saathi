@@ -17,9 +17,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import app.futured.donut.DonutSection
 import com.android.volley.Request
 import com.android.volley.Response
@@ -27,11 +26,6 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import androidx.navigation.*
-import androidx.navigation.fragment.findNavController
 import java.util.*
 
 
@@ -56,8 +50,6 @@ class HomeFragment : Fragment() {
 
         fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
         getLastLocation()
-
-        getlastlocation()
         view.materialCardView?.setOnClickListener{
             val action = HomeFragmentDirections.actionHomeFragmentToTotalCases()
             val extras = FragmentNavigatorExtras(materialCardView to "totalCaseCard")
