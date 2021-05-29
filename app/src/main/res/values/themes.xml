@@ -15,7 +15,7 @@
         <item name="android:navigationBarColor">?attr/appPrimaryColor</item>
         <!-- Customize your theme here. -->
         <item name="appPrimaryColor">@color/backgroundWhite</item>
-        <item name="appAccentColor">@color/mediumPurple</item>
+        <item name="appAccentColor">@color/blue</item>
         <item name="appText">@color/backgroundBlack</item>
         <item name="cardColor">@color/white</item>
         <item name="dividerColor">@color/dividerGray</item>
