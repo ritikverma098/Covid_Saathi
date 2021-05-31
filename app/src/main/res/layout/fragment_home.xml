@@ -175,7 +175,7 @@
                 android:id="@+id/totalCasesText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1200"
+                android:text="0"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -217,7 +217,7 @@
                 android:id="@+id/activeCasesText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1200"
+                android:text="0"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -260,7 +260,7 @@
                 android:id="@+id/recoveredText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1200"
+                android:text="0"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -303,7 +303,7 @@
                 android:id="@+id/deathText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1200"
+                android:text="0"
                 android:textSize="@dimen/_15ssp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 

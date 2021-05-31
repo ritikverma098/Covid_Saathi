@@ -29,7 +29,8 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 
 
-class HomeFragment : Fragment() {
+
+class HomeFragment : BaseFragment() {
     var checkPer = 1
     lateinit var handler:Handler
     private var LocationPermissionID =1000
@@ -45,35 +46,39 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val view:View = inflater.inflate(R.layout.fragment_home, container, false)
-
-        fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
-        getLastLocation()
-        view.materialCardView?.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToTotalCases()
-            val extras = FragmentNavigatorExtras(materialCardView to "totalCaseCard")
-            findNavController().navigate(action, extras)
-           // Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_totalCases, null)
-        }
-        view.materialCardView3?.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToActiveCases()
-            val extras = FragmentNavigatorExtras(materialCardView3 to "activeCaseCard")
-            findNavController().navigate(action, extras)
-        }
-        view.materialCardView2?.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToRecoveredCases()
-            val extras = FragmentNavigatorExtras(materialCardView2 to "recoveredCaseCard")
-            findNavController().navigate(action, extras)
-        }
-        view.materialCardView4?.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToDeathCases()
-            val extras = FragmentNavigatorExtras(materialCardView4 to "deathCaseCard")
-            findNavController().navigate(action, extras)
-        }
-        return view
+    ): View? {
+        return getPersistentView(inflater, container, savedInstanceState, R.layout.fragment_home)
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (!hasInitializedRootView) {
+            hasInitializedRootView = true
+            fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
+            getLastLocation()
+            view.materialCardView?.setOnClickListener{
+                val action = HomeFragmentDirections.actionHomeFragmentToTotalCases()
+                val extras = FragmentNavigatorExtras(materialCardView to "totalCaseCard")
+                findNavController().navigate(action, extras)
+                // Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_totalCases, null)
+            }
+            view.materialCardView3?.setOnClickListener{
+                val action = HomeFragmentDirections.actionHomeFragmentToActiveCases()
+                val extras = FragmentNavigatorExtras(materialCardView3 to "activeCaseCard")
+                findNavController().navigate(action, extras)
+            }
+            view.materialCardView2?.setOnClickListener{
+                val action = HomeFragmentDirections.actionHomeFragmentToRecoveredCases()
+                val extras = FragmentNavigatorExtras(materialCardView2 to "recoveredCaseCard")
+                findNavController().navigate(action, extras)
+            }
+            view.materialCardView4?.setOnClickListener{
+                val action = HomeFragmentDirections.actionHomeFragmentToDeathCases()
+                val extras = FragmentNavigatorExtras(materialCardView4 to "deathCaseCard")
+                findNavController().navigate(action, extras)
+            }
 
+        }
+    }
     private fun getSections(): List<DonutSection>{
         return listOf(
             DonutSection(
@@ -82,14 +87,14 @@ class HomeFragment : Fragment() {
                 amount = activeCase.toFloat()
             ),
             DonutSection(
-                name = "Recovered",
-                color = Color.parseColor("#058C42"),
-                amount = recovered.toFloat()
-            ),
-            DonutSection(
                 name = "Death",
                 color = Color.parseColor("#FF0000"),
                 amount = death.toFloat()
+            ),
+            DonutSection(
+                name = "Recovered",
+                color = Color.parseColor("#058C42"),
+                amount = recovered.toFloat()
             )
         )
 
@@ -229,7 +234,7 @@ class HomeFragment : Fragment() {
 
     private fun stateNameChanger(state:String):String {
         Thread(Runnable {
-            val map = mapOf("Andaman and Nicobar Islands" to "AN","Andhra Pradesh" to "Ap", "Arunachal Pradesh" to "AR",
+            val map = mapOf("Andaman and Nicobar Islands" to "AN","Andhra Pradesh" to "AP", "Arunachal Pradesh" to "AR",
                 "Assam" to "AS","Bihar" to "BR","Chhattisgarh" to "CT", "Chandigarh" to "CH","Delhi" to "DL",
                 "Dadra and Nagar Haveli and Daman and Diu" to "DN", "Goa" to "GA", "Gujarat" to "GJ",
                 "Himachal Pradesh" to "HP", "Haryana" to "HR", "Jharkhand" to "JH", "Jammu and Kashmir" to "JK",
@@ -281,7 +286,7 @@ class HomeFragment : Fragment() {
 
             MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest)
             Handler(Looper.getMainLooper()).postDelayed({
-                activity?.runOnUiThread { Log.d("locationCheck", "Confirmed case: $activeCase, Recovered Cases: $recovered, Death: $death, Total Cases: $totalCase") }
+                //activity?.runOnUiThread { Log.d("locationCheck", "Confirmed case: $activeCase, Recovered Cases: $recovered, Death: $death, Total Cases: $totalCase") }
             },500)
 
 

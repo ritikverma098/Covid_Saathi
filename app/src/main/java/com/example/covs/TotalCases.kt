@@ -33,7 +33,6 @@ class TotalCases : Fragment() {
 
 
 
-
         return view
     }
 
