@@ -177,7 +177,8 @@
                 android:layout_height="wrap_content"
                 android:text="1200"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="13dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
