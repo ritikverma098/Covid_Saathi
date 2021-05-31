@@ -11,6 +11,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -98,7 +99,10 @@ class DeathCases : Fragment() {
                     }
                     var lineDataSet = LineDataSet(entries,"Deaths")
                     var lineData = LineData(lineDataSet)
+                    var xaxis = chart.xAxis
+                    xaxis.position = XAxis.XAxisPosition.BOTTOM
                     chart.data = lineData
+                    xaxis.valueFormatter
                     chart.invalidate()
                     //activity?.runOnUiThread{ Log.d("locationCheck","Current date : $entries")}
                 },
