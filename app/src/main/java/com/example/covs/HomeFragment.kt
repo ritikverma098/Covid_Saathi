@@ -3,6 +3,7 @@ package com.example.covs
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Geocoder
@@ -43,6 +44,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var activeCase:String
     private lateinit var recovered:String
     private lateinit var death:String
+    val prefFile = "stateCode"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -112,7 +114,7 @@ class HomeFragment : BaseFragment() {
                         getNewLocation()
                     }else
                     {
-                        cityName.text = stateName(location.latitude,location.longitude)
+                        cityName.text = callOtherFun(location.latitude,location.longitude)
                         //Log.d("locationCheck", "Latitude"+location.latitude + " Longitude "
                         // + location.longitude + "\n CityName " + cityName(location.latitude,location.longitude)+" StateName" +stateName(location.latitude,location.longitude))
                         //getCases()
@@ -209,7 +211,7 @@ class HomeFragment : BaseFragment() {
     {
         override fun onLocationResult(p0: LocationResult) {
             var lastLocation = p0.lastLocation
-            cityName.text = stateName(lastLocation.latitude,lastLocation.longitude)
+            cityName.text = callOtherFun(lastLocation.latitude,lastLocation.longitude)
             //Log.d("locationCheck", "Latitude"+lastLocation.latitude + " Longitude " +
                    // lastLocation.longitude + "\n CityName " + cityName(lastLocation.latitude,
                 //lastLocation.longitude)+" StateName" +stateName(lastLocation.latitude,lastLocation.longitude))
@@ -229,10 +231,18 @@ class HomeFragment : BaseFragment() {
         var geocoder = Geocoder(requireContext(), Locale.getDefault())
         var address = geocoder.getFromLocation(lat, long, 1)
         statename = address[0].adminArea
-        return stateNameChanger(statename)
+
+
+        return statename
+    }
+    private fun callOtherFun(lat: Double,long: Double):String
+    {
+        var finalStateName = stateName(lat,long)
+        stateNameChanger(finalStateName)
+        return finalStateName
     }
 
-    private fun stateNameChanger(state:String):String {
+    private fun stateNameChanger(state:String) {
         Thread(Runnable {
             val map = mapOf("Andaman and Nicobar Islands" to "AN","Andhra Pradesh" to "AP", "Arunachal Pradesh" to "AR",
                 "Assam" to "AS","Bihar" to "BR","Chhattisgarh" to "CT", "Chandigarh" to "CH","Delhi" to "DL",
@@ -244,7 +254,7 @@ class HomeFragment : BaseFragment() {
                 "Telangana" to "TG","Tamil Nadu" to "TN","Tripura" to "TR", "Uttar Pradesh" to "UP",
                 "Uttarakhand" to "UT", "West Bengal" to "WB")
             Handler(Looper.getMainLooper()).postDelayed({
-                var     stateName:String = map.getValue(state)
+                var stateName = map.getValue(state)
                 var count = 0
                 activity?.runOnUiThread { Log.d("locationCheck", "State new name is $stateName "+ count++)}
                 getCases(stateName)
@@ -254,12 +264,17 @@ class HomeFragment : BaseFragment() {
 
         }).start()
 
-        return state
+
     }
 
     private fun getCases(state:String)
     {
         Thread(Runnable {
+            val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(prefFile,0)
+            val editor = sharedPreferences.edit()
+            editor.putString("stateCode",state)
+            editor.apply()
+            editor.commit()
 
             val url = "https://api.covid19india.org/v4/min/data.min.json"
 
@@ -285,9 +300,6 @@ class HomeFragment : BaseFragment() {
             )
 
             MySingleton.getInstance(requireContext()).addToRequestQueue(jsonObjectRequest)
-            Handler(Looper.getMainLooper()).postDelayed({
-                //activity?.runOnUiThread { Log.d("locationCheck", "Confirmed case: $activeCase, Recovered Cases: $recovered, Death: $death, Total Cases: $totalCase") }
-            },500)
 
 
         }).start()
