@@ -26,6 +26,7 @@
         <action
             android:id="@+id/action_homeFragment_to_deathCases"
             app:destination="@id/deathCases" />
+
     </fragment>
     <fragment
         android:id="@+id/statsFragment"

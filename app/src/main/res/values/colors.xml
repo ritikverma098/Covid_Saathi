@@ -18,7 +18,8 @@
     <color name="dividerGray">#FFf0f0f0</color>
     <color name="donutGray">#FFf2f2f2</color>
     <color name="kindaPurple">#FF2573FA</color>
-    <color name="kindaPurpleButLighter">#FFC1D4FD</color>
+    <color name="kindaPurpleButLighter">#FFf5f8ff</color>
     <color name="orange">#FFef7215</color>
     <color name="amber">#FFff7417</color>
+    <color name="blue">#FF3333FF</color>
 </resources>
