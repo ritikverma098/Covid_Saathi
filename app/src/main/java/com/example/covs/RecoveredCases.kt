@@ -11,9 +11,14 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IFillFormatter
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialContainerTransform
 import org.json.JSONObject
@@ -45,6 +50,28 @@ class RecoveredCases : Fragment() {
         val view : View = inflater.inflate(R.layout.fragment_recovered_cases, container, false)
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(prefFile,0)
         chart = view.findViewById(R.id.recoveredLineGraph)
+        //  chart.setViewPortOffsets(0f,0f,0f,0f)
+
+        chart.description.isEnabled = false
+        chart.setTouchEnabled(true)
+        chart.isDragEnabled = false
+        chart.setScaleEnabled(false)
+        chart.setPinchZoom(false)
+        chart.setDrawGridBackground(false)
+        chart.maxHighlightDistance = 300f
+
+        val x : XAxis = chart.xAxis
+        x.isEnabled = true
+        x.setDrawGridLines(false)
+        x.position = XAxis.XAxisPosition.BOTTOM
+        x.textColor = MaterialColors.getColor(requireContext(), R.attr.appText, Color.BLACK)
+        val y : YAxis = chart.axisLeft
+        y.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+        y.setDrawGridLines(true)
+        y.textColor = MaterialColors.getColor(requireContext(), R.attr.appText, Color.BLACK)
+        chart.axisRight.isEnabled = false;
+
+        chart.legend.isEnabled = false;
         state = sharedPreferences.getString("stateCode","").toString()
         getData(state)
         return view
@@ -98,7 +125,28 @@ class RecoveredCases : Fragment() {
                         entries.add(Entry(dateDayStore[i].toFloat(),activeCasesList[i].toFloat()))
                     }
                     var lineDataSet = LineDataSet(entries,"Recovered Cases")
+                    lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+                    lineDataSet.cubicIntensity = 0.2f
+                    lineDataSet.setDrawFilled(true)
+                    lineDataSet.setDrawCircles(false)
+                    lineDataSet.lineWidth = 1.8f
+                    lineDataSet.circleRadius = 4f
+                    lineDataSet.setCircleColor(Color.WHITE)
+                    lineDataSet.setColor(resources.getColor(R.color.spanishGreen))
+                    lineDataSet.fillColor = resources.getColor(R.color.spanishGreen)
+                    lineDataSet.fillAlpha = 100
+                    lineDataSet.setDrawHorizontalHighlightIndicator(false)
+                    val ifill = object : IFillFormatter {
+                        override fun getFillLinePosition(
+                            dataSet: ILineDataSet?,
+                            dataProvider: LineDataProvider?
+                        ): Float {
+                            return chart.axisLeft.axisMinimum
+                        }
+                    }
+                    lineDataSet.setFillFormatter(ifill)
                     var lineData = LineData(lineDataSet)
+                    lineData.setDrawValues(false)
                     chart.data = lineData
                     chart.invalidate()
                     //activity?.runOnUiThread{ Log.d("locationCheck","Current date : $entries")}
