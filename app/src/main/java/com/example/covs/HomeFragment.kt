@@ -17,7 +17,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import app.futured.donut.DonutSection
@@ -27,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import java.text.NumberFormat
 import java.util.*
 
 
@@ -131,7 +131,9 @@ class HomeFragment : BaseFragment() {
 
                 }
                 builder.setNegativeButton("No"){ dialogInterface, which->
-                    // Log.d("locationCheck","User clicked No")
+                    var intent = Intent(requireContext(), ErrorActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
                 val alertDialog = builder.create()
                 alertDialog.setCancelable(false)
@@ -286,16 +288,18 @@ class HomeFragment : BaseFragment() {
                     recovered = totalSection.getString("recovered")
                     death = totalSection.getString("deceased")
                     totalCase = (activeCase.toInt()+recovered.toInt()+death.toInt()).toString()
-                    totalCasesText.text = totalCase
-                    activeCasesText.text = activeCase
-                    deathText.text = death
-                    recoveredText.text = recovered
+                    totalCasesText.text = (NumberFormat.getNumberInstance(Locale("en","in")).format(totalCase.toDouble()))
+                    activeCasesText.text = NumberFormat.getNumberInstance(Locale("en","in")).format(activeCase.toDouble())
+                    deathText.text = NumberFormat.getNumberInstance(Locale("en","in")).format(death.toDouble())
+                    recoveredText.text = NumberFormat.getNumberInstance(Locale("en","in")).format(recovered.toDouble())
                     donut_view.cap = totalCase.toFloat()
                     donut_view.submitData(getSections())
                     //checkVal = totalCase.toFloat()
                 },
                 Response.ErrorListener { error ->
-                    // TODO: Handle error
+                    var intent = Intent(requireContext(),InternetError::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
             )
 

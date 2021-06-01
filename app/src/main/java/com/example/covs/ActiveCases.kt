@@ -1,5 +1,6 @@
 package com.example.covs
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -11,6 +12,8 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -157,7 +160,9 @@ class ActiveCases : Fragment() {
                     //activity?.runOnUiThread{ Log.d("locationCheck","Current date : $entries")}
                 },
                 Response.ErrorListener { error ->
-                    // TODO: Handle error
+                    var intent = Intent(requireContext(),InternetError::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
             )
 
