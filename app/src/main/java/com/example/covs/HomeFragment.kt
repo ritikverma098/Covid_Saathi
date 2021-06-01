@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.futured.donut.DonutSection
 import com.android.volley.Request
 import com.android.volley.Response
@@ -56,6 +57,10 @@ class HomeFragment : BaseFragment() {
         if (!hasInitializedRootView) {
             hasInitializedRootView = true
             fusedLocationProviderClient =LocationServices.getFusedLocationProviderClient(requireContext())
+            swipeToRefresh.setOnRefreshListener {
+                getLastLocation()
+                swipeToRefresh.isRefreshing = false
+            }
             getLastLocation()
             view.materialCardView?.setOnClickListener{
                 val action = HomeFragmentDirections.actionHomeFragmentToTotalCases()
