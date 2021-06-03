@@ -88,24 +88,23 @@ class DeathCases : Fragment() {
                     var dateFormat = SimpleDateFormat("YYYY-MM-dd")
                     var cal = Calendar.getInstance()
                     var date = cal.time
-                    var dateFormatDay = SimpleDateFormat("dd")
+                    var dayToDisplay = SimpleDateFormat("dd-MMM")
                     //var currentDate = dateFormat.format(Date())
                     //activity?.runOnUiThread{ Log.d("locationCheck","Current date : " + currentDate[8]+currentDate[9])}
                     //var date = LocalDate.now()
                     var dateStore = ArrayList<String>()
-                    var dateDayStore = ArrayList<Int>()
+                    var dateDisplay = ArrayList<String>()
                     for (i in 1..7)
                     {
                         cal.add(Calendar.DAY_OF_MONTH, -1)
                         date = cal.time
                         dateStore.add(dateFormat.format(date))
-                        dateDayStore.add(dateFormatDay.format(date).toInt())
-
+                        dateDisplay.add(dayToDisplay.format(date))
                         //var lastSeven = date.minusDays(i.toLong())
                         //dateStore.add(lastSeven.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")))
 
                     }
-
+                    dateDisplay.reverse()
                     var dates = state.getJSONObject("dates")
                     var dateSelect: JSONObject
                     var activeCasesList = ArrayList<String>()
@@ -118,12 +117,20 @@ class DeathCases : Fragment() {
 
 
                     }
-
+                    var floatData = ArrayList<Int>()
+                    floatData.add(0)
+                    floatData.add(1)
+                    floatData.add(2)
+                    floatData.add(3)
+                    floatData.add(4)
+                    floatData.add(5)
+                    floatData.add(6)
+                    activeCasesList.reverse()
                     var entries = ArrayList<Entry>()
-                    for(i in 6 downTo 0)
+                    for(i in 0..6)
                     {
 
-                        entries.add(Entry(dateDayStore[i].toFloat(),activeCasesList[i].toFloat()))
+                        entries.add(Entry(floatData[i].toFloat(),activeCasesList[i].toFloat()))
                     }
                     var lineDataSet = LineDataSet(entries,"Deaths")
                     lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -148,6 +155,8 @@ class DeathCases : Fragment() {
                     lineDataSet.setFillFormatter(ifill)
                     var lineData = LineData(lineDataSet)
                     lineData.setDrawValues(false)
+                    var xAxis = chart.xAxis
+                    xAxis.valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(dateDisplay)
                     chart.data = lineData
                     chart.invalidate()
                     //activity?.runOnUiThread{ Log.d("locationCheck","Current date : $entries")}
