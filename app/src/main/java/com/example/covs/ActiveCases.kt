@@ -109,7 +109,7 @@ class ActiveCases : Fragment() {
                         dateDisplay.add(dayToDisplay.format(date))
 
                         //var lastSeven = date.minusDays(i.toLong())
-                        //dateStore.add(lastSeven.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")))
+                        //dateStore.add(lastSeven.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"))))
 
                     }
                     dateDisplay.reverse()
